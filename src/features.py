@@ -45,17 +45,21 @@ def customer_features(df: pd.DataFrame, end_date=None) -> pd.DataFrame:
     g["recency"] = (end_date - g["last_purchase"]).dt.days
     g["customer_lifetime_days"] = (g["last_purchase"] - g["first_purchase"]).dt.days
 
+#Calculatee days between consecutive orders
     gaps = (
         orders.sort_values(["CustomerID", "order_date"])
         .groupby("CustomerID")["order_date"]
         .diff()
         .dt.days
     )
+# Calculate average gap between orders for each customer
     gap = (
         gaps.groupby(orders.loc[gaps.index, "CustomerID"]).mean().rename("avg_days_between_orders")
     )
+    # Add average gap to customer features
     g = g.merge(gap, left_on="CustomerID", right_index=True, how="left")
-    g["avg_days_between_orders"] = g["avg_days_between_orders"].fillna(0)
+
+    g["avg_days_between_orders"] = g["avg_days_between_orders"]
 
     PROC.mkdir(parents=True, exist_ok=True)
     g.to_csv(PROC / "customer_features.csv", index=False)

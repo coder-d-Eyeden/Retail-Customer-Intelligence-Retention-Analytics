@@ -1,7 +1,10 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
+
 from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, classification_report, roc_auc_score
 from sklearn.linear_model import LogisticRegression
@@ -83,11 +86,25 @@ def temporal_churn(df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     ytr, yte = y.iloc[:split], y.iloc[split:]
 
     models = {
-        "logistic": LogisticRegression(max_iter=2000, class_weight="balanced"),
-        "random_forest": RandomForestClassifier(
-            n_estimators=250, random_state=42, class_weight="balanced", n_jobs=-1
-        ),
-    }
+    "logistic": Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler()),
+        ("model", LogisticRegression(
+            max_iter=2000,
+            class_weight="balanced"
+        )),
+    ]),
+
+    "random_forest": Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("model", RandomForestClassifier(
+            n_estimators=250,
+            random_state=42,
+            class_weight="balanced",
+            n_jobs=-1
+        )),
+    ]),
+}
 
     results = {}
     for name, m in models.items():
