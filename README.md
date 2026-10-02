@@ -1,7 +1,6 @@
 # Retail Customer Intelligence & Retention Analytics
 
-End-to-end customer analytics project built on the real **UCI Online Retail** dataset. The project is designed around the Accenture AI & Data internship requirements: Python, SQL, EDA, segmentation, retention analytics, predictive modeling, explainability, visualization and business recommendations.
-
+End-to-end customer analytics project built on the real **UCI Online Retail** dataset. 
 ## Dataset
 UCI Online Retail: https://archive.ics.uci.edu/dataset/352/online+retail
 541,909 transaction records covering 01/12/2010–09/12/2011. License: CC BY 4.0.
