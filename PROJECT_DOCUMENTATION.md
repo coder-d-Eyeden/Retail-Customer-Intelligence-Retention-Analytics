@@ -27,8 +27,6 @@
 
 This project is an end-to-end customer analytics pipeline built on the UCI Online Retail dataset. It answers a single business question: **Which customers matter most, which are at risk of leaving, and what should the business do about it?**
 
-The project was designed to demonstrate the full analytics lifecycle — from raw transactional data through to actionable business intelligence — using Python, SQL, machine learning, and interactive visualization.
-
 ### What the project does
 
 | Stage | What happens | Why it matters |
